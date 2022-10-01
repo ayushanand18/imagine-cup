@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-
+import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
 import Webcam from 'react-webcam';
 import { drawMesh } from './utils';
