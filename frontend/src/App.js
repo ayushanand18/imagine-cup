@@ -3,10 +3,49 @@ import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
 import Webcam from 'react-webcam';
 import { drawMesh } from './utils';
+// Adds the CPU backend.
+import '@tensorflow/tfjs-backend-cpu';
+// Import @tensorflow/tfjs-core
+import * as tf from '@tensorflow/tfjs-core';
+// Import @tensorflow/tfjs-tflite.
+import * as tflite from '@tensorflow/tfjs-tflite';
 
 import './App.css';
 
 function App() {
+  
+  var functionPredict = async function(){
+    // 
+    // Function to infer from tflite model
+    // 
+    // (sorry for the really dirty code.)
+    
+    const tfliteModel = await tflite.loadTFLiteModel('./assets/model.tflite');
+    const im = new Image();
+    im.src = "assets/1-556.JPG";
+    im.onload = () => {
+      let img = tf.browser.fromPixels(im, 4);
+    
+      const outputTensor = tf.tidy(() => {
+      // Get pixels data from an image.
+      // or use below method to fetch from a DOM object
+      // whatever image you take please have them in BGR format
+      // let img = tf.browser.fromPixels(document.querySelector('img'));
+      // Resize and normalize:
+      img = tf.image.resizeBilinear(img, [224, 224]);
+      img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1);
+
+      // Run the inference.
+      let outputTensor = tfliteModel.predict(img);
+      
+      // De-normalize the result.
+      return tf.mul(tf.add(outputTensor, 1), 127.5)
+      });
+  
+    console.log(outputTensor);
+    }}
+  functionPredict();
+
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
