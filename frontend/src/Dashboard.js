@@ -1,10 +1,15 @@
-import React, { useRef, useEffect, useCallback } from 'react';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
+import './App.css';
+
+import { auth, db, logout } from './firebase';
+import { query, collection, getDocs, where } from 'firebase/firestore';
 
 import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
 import Webcam from 'react-webcam';
-
 import { drawMesh } from './utils';
 // Adds the CPU backend.
 import '@tensorflow/tfjs-backend-cpu';
@@ -13,22 +18,23 @@ import * as tf from '@tensorflow/tfjs-core';
 // Import @tensorflow/tfjs-tflite.
 import * as tflite from '@tensorflow/tfjs-tflite';
 
-import './App.css';
-import Dashboard from './Dashboard';
-import Login from './Login';
+function Dashboard() {
+  const [user, loading, error] = useAuthState(auth);
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Login />,
-  },
-  {
-    path: '/dashboard',
-    element: <Dashboard />,
-  },
-]);
+  const fetchUserName = async () => {
+    try {
+      const q = query(collection(db, 'users'), where('uid', '==', user?.uid));
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
+      setName(data.name);
+    } catch (err) {
+      console.error(err);
+      console.log('An error occured while fetching user data');
+    }
+  };
 
-function App() {
   var functionPredict = async function () {
     //
     // Function to infer from tflite model
@@ -105,45 +111,57 @@ function App() {
   };
 
   useEffect(() => {
+    if (loading) return;
+    if (!user) return navigate('/');
+    fetchUserName();
+  }, [user, loading]);
+
+  useEffect(() => {
     runFacemesh();
   }, [runFacemesh]);
 
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-      {/* <header className="App-header">
-        <Webcam
-          ref={webcamRef}
-          style={{
-            position: 'absolute',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
+    <div className="dashboard">
+      <div className="dashboard__container">
+        Logged in as
+        <div>{name}</div>
+        <div>{user?.email}</div>
+        <header className="App-header">
+          <Webcam
+            ref={webcamRef}
+            style={{
+              position: 'absolute',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              left: 0,
+              right: 0,
+              textAlign: 'center',
+              zindex: 9,
+              width: 640,
+              height: 480,
+            }}
+          />
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: 'absolute',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
-      </header> */}
+          <canvas
+            ref={canvasRef}
+            style={{
+              position: 'absolute',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              left: 0,
+              right: 0,
+              textAlign: 'center',
+              zindex: 9,
+              width: 640,
+              height: 480,
+            }}
+          />
+        </header>
+        <button className="dashboard__btn" onClick={logout}>
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
-
-export default App;
+export default Dashboard;
