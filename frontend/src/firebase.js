@@ -6,17 +6,8 @@ import {
   signOut,
 } from 'firebase/auth';
 
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-} from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: 'AIzaSyD9ADYlk6lygZHiz6BIY4C6VK84IZ8BG6w',
   authDomain: 'imagine-cup-5db88.firebaseapp.com',

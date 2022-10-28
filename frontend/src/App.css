@@ -13,9 +13,9 @@
   }
 }
 
-.App-header {
+.main {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +35,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+:global p,
+h1,
+h2,
+h3,
+h4,
+button {
+  margin: 0;
+  padding: 0;
 }

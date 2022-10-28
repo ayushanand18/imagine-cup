@@ -1,26 +1,28 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import './Dashboard.css';
-import './App.css';
-
-import { auth, db, logout } from './firebase';
+import { auth, db, logout } from '../../firebase';
 import { query, collection, getDocs, where } from 'firebase/firestore';
 
 import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
 import Webcam from 'react-webcam';
-import { drawMesh } from './utils';
+import { Camera } from '../Camera';
+import { drawMesh } from '../../utils';
 // Adds the CPU backend.
 import '@tensorflow/tfjs-backend-cpu';
-// Import @tensorflow/tfjs-core
 import * as tf from '@tensorflow/tfjs-core';
-// Import @tensorflow/tfjs-tflite.
 import * as tflite from '@tensorflow/tfjs-tflite';
 
+import styles from './Dashboard.module.scss';
+
 function Dashboard() {
-  const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState('');
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [cardImage, setCardImage] = useState();
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   const fetchUserName = async () => {
@@ -35,7 +37,7 @@ function Dashboard() {
     }
   };
 
-  var functionPredict = async function () {
+  const functionPredict = async function () {
     //
     // Function to infer from tflite model
     //
@@ -66,10 +68,6 @@ function Dashboard() {
       console.log(outputTensor);
     };
   };
-  functionPredict();
-
-  const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
 
   const runFacemesh = useCallback(async () => {
     const net = await facemesh.load(
@@ -114,52 +112,62 @@ function Dashboard() {
     if (loading) return;
     if (!user) return navigate('/');
     fetchUserName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
-  useEffect(() => {
-    runFacemesh();
-  }, [runFacemesh]);
+  //don't remove this
+  // useEffect(() => {
+  //   runFacemesh();
+  // }, [runFacemesh]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__container">
-        Logged in as
-        <div>{name}</div>
-        <div>{user?.email}</div>
-        <header className="App-header">
-          <Webcam
-            ref={webcamRef}
-            style={{
-              position: 'absolute',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              left: 0,
-              right: 0,
-              textAlign: 'center',
-              zindex: 9,
-              width: 640,
-              height: 480,
-            }}
-          />
-
-          <canvas
-            ref={canvasRef}
-            style={{
-              position: 'absolute',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              left: 0,
-              right: 0,
-              textAlign: 'center',
-              zindex: 9,
-              width: 640,
-              height: 480,
-            }}
-          />
-        </header>
+    <div className={styles.dashboard}>
+      <nav className={styles.navbar}>
+        {/* <p>{name}</p> */}
+        <p>Logged in as {user?.email}</p>
         <button className="dashboard__btn" onClick={logout}>
           Logout
         </button>
+      </nav>
+
+      {/* {functionPredict()} */}
+      <div className={styles.container}>
+        <div className={styles.main}>
+          {/* <div className={styles.camera}> */}
+          {/* <Webcam ref={webcamRef} className={styles.webcam} /> */}
+          {/* <canvas ref={canvasRef} className={styles.canvas} /> */}
+          {/* </div> */}
+
+          {isCameraOpen && (
+            <Camera
+              onCapture={(blob) => setCardImage(blob)}
+              onClear={() => setCardImage(undefined)}
+            />
+          )}
+
+          {cardImage && (
+            <div>
+              <h2>Preview</h2>
+              <img
+                src={cardImage && URL.createObjectURL(cardImage)}
+                alt="preview"
+              />
+            </div>
+          )}
+
+          <div>
+            <button onClick={() => setIsCameraOpen(true)}>Open Camera</button>
+            <button
+              onClick={() => {
+                setIsCameraOpen(false);
+                setCardImage(undefined);
+              }}
+            >
+              Close Camera
+            </button>
+          </div>
+          {/* <input type="file" accept="image/*" capture="environment" /> */}
+        </div>
       </div>
     </div>
   );
