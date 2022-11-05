@@ -1,10 +1,17 @@
 import React, { useState, useRef } from 'react';
 import Measure from 'react-measure';
-import { useUserMedia } from '../../hooks/useUserMedia';
-import { useCardRatio } from '../../hooks/useCardRatio';
-import { useOffsets } from '../../hooks/useOffsets';
-
-import styles from './Camera.module.scss';
+import { useUserMedia } from '../../hooks/use-user-media';
+import { useCardRatio } from '../../hooks/use-card-ratio';
+import { useOffsets } from '../../hooks/use-offsets';
+import {
+  Video,
+  Canvas,
+  Wrapper,
+  Container,
+  Flash,
+  Overlay,
+  Button,
+} from './styles';
 
 const CAPTURE_OPTIONS = {
   audio: false,
@@ -14,25 +21,20 @@ const CAPTURE_OPTIONS = {
 export function Camera({ onCapture, onClear }) {
   const canvasRef = useRef();
   const videoRef = useRef();
+
   const [container, setContainer] = useState({ width: 0, height: 0 });
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isCanvasEmpty, setIsCanvasEmpty] = useState(true);
   const [isFlashing, setIsFlashing] = useState(false);
+
   const mediaStream = useUserMedia(CAPTURE_OPTIONS);
   const [aspectRatio, calculateRatio] = useCardRatio(1.586);
-
-  //   console.log('playing', isVideoPlaying);
-  //   console.log(mediaStream);
-  //   console.log(videoRef);
-
   const offsets = useOffsets(
     videoRef.current && videoRef.current.videoWidth,
     videoRef.current && videoRef.current.videoHeight,
     container.width,
     container.height
   );
-
-  console.log(offsets);
 
   if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
     videoRef.current.srcObject = mediaStream;
@@ -85,18 +87,16 @@ export function Camera({ onCapture, onClear }) {
   return (
     <Measure bounds onResize={handleResize}>
       {({ measureRef }) => (
-        <div className={styles.wrapper}>
-          <div
-            className={styles.container}
+        <Wrapper>
+          <Container
             ref={measureRef}
-            // maxHeight={videoRef.current && videoRef.current.videoHeight}
-            // maxWidth={videoRef.current && videoRef.current.videoWidth}
+            maxHeight={videoRef.current && videoRef.current.videoHeight}
+            maxWidth={videoRef.current && videoRef.current.videoWidth}
             style={{
               height: `${container.height}px`,
             }}
           >
-            <div
-              className={styles.video}
+            <Video
               ref={videoRef}
               hidden={!isVideoPlaying}
               onCanPlay={handleCanPlay}
@@ -109,28 +109,26 @@ export function Camera({ onCapture, onClear }) {
               }}
             />
 
-            <div className={styles.overlay} hidden={!isVideoPlaying} />
+            <Overlay hidden={!isVideoPlaying} />
 
-            <div
-              className={styles.canvas}
+            <Canvas
               ref={canvasRef}
               width={container.width}
               height={container.height}
             />
 
-            <div
-              className={styles.flash}
+            <Flash
               flash={isFlashing}
               onAnimationEnd={() => setIsFlashing(false)}
             />
-          </div>
+          </Container>
 
           {isVideoPlaying && (
-            <button onClick={isCanvasEmpty ? handleCapture : handleClear}>
+            <Button onClick={isCanvasEmpty ? handleCapture : handleClear}>
               {isCanvasEmpty ? 'Take a picture' : 'Take another picture'}
-            </button>
+            </Button>
           )}
-        </div>
+        </Wrapper>
       )}
     </Measure>
   );

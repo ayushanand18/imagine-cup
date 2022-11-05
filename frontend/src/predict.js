@@ -5,11 +5,10 @@ import * as tf from '@tensorflow/tfjs-core';
 // Import @tensorflow/tfjs-tflite.
 import * as tflite from '@tensorflow/tfjs-tflite';
 
-functionPredict = async function(){
-    const tfliteModel = await tflite.loadTFLiteModel(
-    './assets/model.tflite');
+const functionPredict = async function () {
+  const tfliteModel = await tflite.loadTFLiteModel('./assets/model.tflite');
 
-    const outputTensor = tf.tidy(() => {
+  const outputTensor = tf.tidy(() => {
     // Get pixels data from an image.
     let img = tf.browser.fromPixels(document.querySelector('img'));
     // Resize and normalize:
@@ -18,8 +17,8 @@ functionPredict = async function(){
     // Run the inference.
     let outputTensor = tfliteModel.predict(img);
     // De-normalize the result.
-    return tf.mul(tf.add(outputTensor, 1), 127.5)
-    });
-    console.log(outputTensor);
-}
+    return tf.mul(tf.add(outputTensor, 1), 127.5);
+  });
+  console.log(outputTensor);
+};
 functionPredict();

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import './forms.css';
-import { auth } from './firebase';
+import './forms.scss';
+import { auth } from '../../firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useAuthValue } from './AuthContext';
+import { useAuthValue } from '../../AuthContext';
 
 function Register() {
   const [email, setEmail] = useState('');

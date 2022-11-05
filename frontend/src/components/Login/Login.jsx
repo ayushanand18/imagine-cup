@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, logInWithEmailAndPassword } from './firebase';
+import { auth, loginWithCredentials } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './Login.css';
+import styles from './Login.module.scss';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+
+  console.log(error);
+
   useEffect(() => {
     if (loading) {
       // maybe trigger a loading screen
@@ -15,26 +19,27 @@ function Login() {
     }
     if (user) navigate('/dashboard');
   }, [user, loading]);
+
   return (
-    <div className="login">
-      <div className="login__container">
+    <div className={styles.login}>
+      <div className={styles.loginContainer}>
         <input
           type="text"
-          className="login__textBox"
+          className={styles.loginTextbox}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
         />
         <input
           type="password"
-          className="login__textBox"
+          className={styles.loginTextbox}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
         <button
-          className="login__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
+          className={styles.loginBtn}
+          onClick={() => loginWithCredentials(email, password)}
         >
           Login
         </button>

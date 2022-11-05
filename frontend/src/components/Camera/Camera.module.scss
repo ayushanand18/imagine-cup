@@ -33,27 +33,22 @@
 
   //   max-width: ${({ maxWidth }) => maxWidth && `${maxWidth}px`};
   //   max-height: ${({ maxHeight }) => maxHeight && `${maxHeight}px`};
-  max-width: 200px;
-  max-height: 200px;
+  //   max-width: 200px;
+  //   max-height: 200px;
+  width: 200px;
+  height: 200px;
 
   overflow: hidden;
 }
 
-.canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
 .video {
   position: absolute;
-
-  //   &::-webkit-media-controls-play-button {
-  //     display: none !important;
-  //     -webkit-appearance: none;
-  //   }
+  //   height: 100px;
+  //   width: 100px;
+  &::-webkit-media-controls-play-button {
+    display: none !important;
+    // -webkit-appearance: none;
+  }
 }
 
 .overlay {
@@ -65,6 +60,14 @@
   box-shadow: 0px 0px 20px 56px rgba(0, 0, 0, 0.6);
   border: 1px solid #ffffff;
   border-radius: 10px;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .flash {
