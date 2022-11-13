@@ -1,0 +1,18 @@
+$mobile-xs-max-width: 1024px;
+
+@mixin mobile {
+  @media only screen and (max-width: #{$mobile-xs-max-width}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: #{$mobile-xs-max-width}) {
+    @content;
+  }
+}
+
+@mixin content-size($width, $height) {
+  width: #{$width}px;
+  height: #{$height}px;
+}

@@ -3,7 +3,6 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth, db, logout } from '../../firebase';
-import { query, collection, getDocs, where } from 'firebase/firestore';
 import { Camera } from 'react-camera-pro';
 import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
@@ -19,7 +18,6 @@ import styles from './Dashboard.module.scss';
 
 function Dashboard() {
   const [name, setName] = useState('');
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [cardImage, setCardImage] = useState();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
@@ -28,20 +26,7 @@ function Dashboard() {
   const camera = useRef(null);
   const [devices, setDevices] = useState([]);
   const [image, setImage] = useState(null);
-
-  // console.log('cardimage', cardImage);
-
-  const fetchUserName = async () => {
-    try {
-      const q = query(collection(db, 'users'), where('uid', '==', user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setName(data.name);
-    } catch (err) {
-      console.error(err);
-      console.log('An error occured while fetching user data');
-    }
-  };
+  const [activeDeviceId, setActiveDeviceId] = useState('');
 
   const functionPredict = async function () {
     //
@@ -117,16 +102,17 @@ function Dashboard() {
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate('/');
-    fetchUserName();
+    // fetchUserName();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
   useEffect(() => {
     (async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter((i) => i.kind == 'videoinput');
+      const videoDevices = devices.filter((i) => i.kind === 'videoinput');
       console.log(videoDevices);
       setDevices(videoDevices);
+      setActiveDeviceId(videoDevices[0].activeDeviceId);
     })();
   }, []);
 
@@ -153,42 +139,30 @@ function Dashboard() {
           {/* <canvas ref={canvasRef} className={styles.canvas} /> */}
           {/* </div> */}
 
-          {/* {isCameraOpen && (
+          <p>{devices[0]?.label}</p>
+          <div className={styles.camera}>
             <Camera
-              onCapture={(blob) => setCardImage(blob)}
-              onClear={() => setCardImage(undefined)}
-            />
-          )}
-
-          {cardImage && (
-            <div>
-              <h2>Preview</h2>
-              <img
-                src={cardImage && URL.createObjectURL(cardImage)}
-                alt="preview"
-              />
-            </div>
-          )}
-
-          <div>
-            <button onClick={() => setIsCameraOpen(true)}>Open Camera</button>
-            <button
-              onClick={() => {
-                setIsCameraOpen(false);
-                setCardImage(undefined);
+              ref={camera}
+              aspectRatio="cover"
+              videoSourceDeviceId={activeDeviceId}
+              errorMessages={{
+                noCameraAccessible:
+                  'No camera device accessible. Please connect your camera or try a different browser.',
+                permissionDenied:
+                  'Permission denied. Please refresh and give camera permission.',
+                switchCamera:
+                  'It is not possible to switch camera to different one because there is only one video device accessible.',
+                canvas: 'Canvas is not supported.',
               }}
-            >
-              Close Camera
-            </button>
-          </div> */}
-          {/* <Camera /> */}
-          {/* <div className={styles.camera}> */}
-          <Camera ref={camera} />
-          <button onClick={() => setImage(camera.current.takePhoto())}>
+            />
+          </div>
+          <button
+            className={styles.capture}
+            onClick={() => setImage(camera.current.takePhoto())}
+          >
             Take photo
           </button>
-          <img src={image} alt="Taken photo" />
-          {/* </div> */}
+          {image && <img className={styles.preview} src={image} alt="" />}
         </div>
       </div>
     </div>

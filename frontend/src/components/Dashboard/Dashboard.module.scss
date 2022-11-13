@@ -1,5 +1,18 @@
+@import '../../styles/mixins.scss';
+
+button {
+  margin: 0 20px;
+}
+
+.capture {
+  margin: 20px;
+  padding: 10px;
+}
+
 .dashboard {
   .navbar {
+    background-color: #282c34;
+    color: white;
     display: flex;
     padding: 2rem;
 
@@ -16,7 +29,7 @@
   }
 
   .main {
-    background-color: #282c34;
+    background-color: white;
     min-height: 85vh;
     display: flex;
     flex-direction: column;
@@ -27,6 +40,13 @@
 
     .camera {
       position: relative;
+      width: 600px;
+      height: 600px;
+
+      @include mobile {
+        width: 300px;
+        height: 500px;
+      }
 
       .webcam {
         position: absolute;
@@ -52,6 +72,13 @@
         height: 300;
       }
     }
+
+    .preview {
+      @include content-size(600, 600);
+
+      @include mobile {
+        @include content-size(300, 500);
+      }
+    }
   }
 }
-

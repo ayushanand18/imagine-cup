@@ -18,7 +18,7 @@ function Login() {
       return;
     }
     if (user) navigate('/dashboard');
-  }, [user, loading]);
+  }, [user, loading, navigate]);
 
   return (
     <div className={styles.login}>
