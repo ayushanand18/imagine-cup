@@ -27,9 +27,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
     - run: |
-      cd frontend
-      yarn install
+        cd frontend
+        yarn install
     - run: |
-      cd frontend
-      yarn run build --if-present
-    - run: npm test
+        cd frontend
+        yarn run build --if-present
+    - run: |
+        cd frontend
+        yarn test
