@@ -21,11 +21,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: cd frontend
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - run: cd frontend && yarn install
-    - run: cd frontend && yarn run build --if-present
-    - run: cd frontend && yarn test
+    - name: Install
+      working-directory: ./frontend
+      run: yarn install
+    - name: Build
+      working-directory: ./frontend
+      run: yarn run build --if-present
+    - name: Test
+      working-directory: ./frontend
+      run: yarn test
