@@ -13,9 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: frontend
+    defaults:
+      run:
+        working-directory: frontend
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -24,6 +24,7 @@ jobs:
     steps:
     - run: ls -al
     - uses: actions/checkout@v3
+    - run: ls -al
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
