@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-const { GenerateSW } = require('workbox-webpack-plugin');
+// const { GenerateSW } = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 

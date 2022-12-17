@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-// eslint-disable-next-line no-restricted-globals
+// eslint-disable-next-line no-restricted-globals, no-unused-vars
 const ignored = self.__WB_MANIFEST;
 
 const isLocalhost = Boolean(
