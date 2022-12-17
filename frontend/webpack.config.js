@@ -24,10 +24,10 @@ const webpackPlugins = [
   }),
   new CopyPlugin({
     patterns: [
-      { from: './src/favicon.ico', to: '' },
-      { from: './src/manifest.json', to: '' },
-      { from: './src/logo192.png', to: '' },
-      { from: './src/logo512.png', to: '' },
+      { from: './public/favicon.ico', to: '' },
+      { from: './public/manifest.json', to: '' },
+      { from: './public/logo192.png', to: '' },
+      { from: './public/logo512.png', to: '' },
     ],
   }),
 

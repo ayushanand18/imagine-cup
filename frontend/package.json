@@ -35,10 +35,13 @@
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
+    "watch": "webpack --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prod": "NODE_ENV=production webpack --mode=production",
-    "serve": "npm run prod && serve -s dist"
+    "prod": "NODE_ENV=production HTTPS=true webpack --mode=production",
+    "serve": "npm run prod && serve -s dist",
+    "serve-build": "npm run prod && serve -s dist -l 5000",
+    "web-serve": "webpack serve"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +71,7 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
     "workbox-webpack-plugin": "^6.5.4"
   }
 }
