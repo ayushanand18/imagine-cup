@@ -13,7 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: frontend
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -21,15 +23,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: ls -al
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - run: |
-      cd frontend
-      yarn install
-    - run: |
-      cd frontend
-      yarn run build --if-present
-    - run: npm test
+        cache-dependency-path: 'frontend/yarn.lock'
+    - name: Install
+      run: yarn install
+    - name: Build
+      run: yarn run build --if-present
+    - name: Test
+      run: yarn test
