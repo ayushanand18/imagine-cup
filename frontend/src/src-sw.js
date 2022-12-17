@@ -9,7 +9,7 @@
 
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
@@ -62,20 +62,20 @@ registerRoute(
  *
  * Caches at: runtime
  */
-registerRoute(
-  ({ url }) =>
-    url.origin === 'https://api.themoviedb.org' &&
-    url.pathname.startsWith('/3/discover/tv'),
-  new StaleWhileRevalidate({
-    cacheName: 'movie-api-response',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-      new ExpirationPlugin({ maxEntries: 1 }), // Will cache maximum 1 requests.
-    ],
-  })
-);
+// registerRoute(
+//   ({ url }) =>
+//     url.origin === 'https://api.themoviedb.org' &&
+//     url.pathname.startsWith('/3/discover/tv'),
+//   new StaleWhileRevalidate({
+//     cacheName: 'movie-api-response',
+//     plugins: [
+//       new CacheableResponsePlugin({
+//         statuses: [0, 200],
+//       }),
+//       new ExpirationPlugin({ maxEntries: 1 }), // Will cache maximum 1 requests.
+//     ],
+//   })
+// );
 
 /**
  * We use CacheFirst for images because, images are not going to change very often,

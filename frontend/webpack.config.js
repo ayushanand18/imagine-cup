@@ -1,10 +1,19 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const webpackPlugins = [
+  // new WorkboxWebpackPlugin.GenerateSW({
+  //   clientsClaim: true,
+  //   skipWaiting: true,
+  // }),
+  new WorkboxWebpackPlugin.InjectManifest({
+    swSrc: './src/service-worker.js',
+    swDest: 'service-worker.js',
+  }),
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'public/index.html'),
     filename: 'index.html',
@@ -21,16 +30,18 @@ const webpackPlugins = [
       { from: './src/logo512.png', to: '' },
     ],
   }),
+
+  // new WorkboxWebpackPlugin.
 ];
 
-if ('production' === process.env.NODE_ENV) {
-  webpackPlugins.push(
-    new InjectManifest({
-      swSrc: './src/src-sw.js',
-      swDest: 'sw.js',
-    })
-  );
-}
+// if ('production' === process.env.NODE_ENV) {
+//   webpackPlugins.push(
+//     new InjectManifest({
+//       swSrc: './src/src-sw.js',
+//       swDest: 'sw.js',
+//     })
+//   );
+// }
 
 module.exports = {
   context: __dirname,
@@ -39,10 +50,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
     publicPath: '/',
+    clean: true,
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './public',
   },
   module: {
     rules: [
