@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import '@tensorflow/tfjs';
 
 import './App.css';
-import Dashboard from './components/Dashboard/Dashboard';
-import Login from './components/Login/Login';
+import Dashboard from './components/Dashboard';
+import Login from './components/Login';
 
 const router = createBrowserRouter([
   {

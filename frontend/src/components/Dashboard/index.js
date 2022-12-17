@@ -16,7 +16,7 @@ import * as tflite from '@tensorflow/tfjs-tflite';
 
 import styles from './Dashboard.module.scss';
 
-function Dashboard() {
+const Dashboard = () => {
   const [name, setName] = useState('');
   const [cardImage, setCardImage] = useState();
   const webcamRef = useRef(null);
@@ -167,5 +167,6 @@ function Dashboard() {
       </div>
     </div>
   );
-}
+};
+
 export default Dashboard;

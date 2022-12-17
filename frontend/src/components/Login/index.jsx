@@ -4,7 +4,7 @@ import { auth, loginWithCredentials } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import styles from './Login.module.scss';
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, loading, error] = useAuthState(auth);
@@ -52,5 +52,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
+
 export default Login;
