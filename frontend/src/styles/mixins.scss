@@ -1,5 +1,32 @@
 $mobile-xs-max-width: 1024px;
 
+@mixin font-size($size, $line-height) {
+  font-size: #{$size}px;
+  line-height: #{$line-height}px;
+}
+
+@mixin font-size-weight($size, $line-height, $weight) {
+  font-size: #{$size}px;
+  line-height: #{$line-height}px;
+  font-weight: $weight;
+}
+
+@mixin display-flex($align: center, $justify: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin modal-size($size) {
+  width: #{$size}px;
+  max-width: #{$size}px;
+}
+
+@mixin content-size($width, $height) {
+  width: #{$width}px;
+  height: #{$height}px;
+}
+
 @mixin mobile {
   @media only screen and (max-width: #{$mobile-xs-max-width}) {
     @content;
@@ -12,7 +39,10 @@ $mobile-xs-max-width: 1024px;
   }
 }
 
-@mixin content-size($width, $height) {
-  width: #{$width}px;
-  height: #{$height}px;
+@mixin line-clamp($lines: 1) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
 }

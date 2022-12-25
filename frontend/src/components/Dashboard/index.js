@@ -6,8 +6,6 @@ import { auth, db, logout } from '../../firebase';
 import { Camera } from 'react-camera-pro';
 import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
-// import Webcam from 'react-webcam';
-// import Camera from '../CameraV2';
 import { drawMesh } from '../../utils';
 // Adds the CPU backend.
 import '@tensorflow/tfjs-backend-cpu';
@@ -134,12 +132,7 @@ const Dashboard = () => {
       {/* {functionPredict()} */}
       <div className={styles.container}>
         <div className={styles.main}>
-          {/* <div className={styles.camera}> */}
-          {/* <Webcam ref={webcamRef} className={styles.webcam} /> */}
-          {/* <canvas ref={canvasRef} className={styles.canvas} /> */}
-          {/* </div> */}
 
-          <p>{devices[0]?.label}</p>
           <div className={styles.camera}>
             <Camera
               ref={camera}
@@ -162,7 +155,12 @@ const Dashboard = () => {
           >
             Take photo
           </button>
-          {image && <img className={styles.preview} src={image} alt="" />}
+          {image ? (
+            <>
+              <img className={styles.preview} src={image} alt="preview" />
+              <button>closeImage</button>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

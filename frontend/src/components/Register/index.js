@@ -6,9 +6,9 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useAuthValue } from '../../AuthContext';
+import { useAuthValue } from '../../context/AuthContext';
 
-function Register() {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -87,6 +87,6 @@ function Register() {
       </div>
     </div>
   );
-}
+};
 
 export default Register;

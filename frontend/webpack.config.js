@@ -54,6 +54,10 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    compress: true,
+    historyApiFallback: true,
+    open: true,
+    overlay: true,
   },
   module: {
     rules: [
@@ -81,6 +85,12 @@ module.exports = {
         use: 'file-loader?name=./images/[name].[ext]',
       },
     ],
+  },
+  resolve: {
+    alias: {
+      component: path.resolve(__dirname, 'src/components/'),
+      context: path.resolve(__dirname, 'src/context/'),
+    },
   },
   plugins: webpackPlugins,
 };

@@ -6,6 +6,8 @@ import '@tensorflow/tfjs';
 import './App.css';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
+import Register from './components/Register';
+import { AuthProvider } from './context/AuthContext';
 
 const router = createBrowserRouter([
   {
@@ -16,12 +18,18 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <Dashboard />,
   },
+  {
+    path: '/register',
+    element: <Register />,
+  },
 ]);
 
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </div>
   );
 }
