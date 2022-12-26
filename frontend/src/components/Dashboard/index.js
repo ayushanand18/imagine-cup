@@ -13,9 +13,9 @@ import * as tf from '@tensorflow/tfjs-core';
 import * as tflite from '@tensorflow/tfjs-tflite';
 
 import styles from './Dashboard.module.scss';
+import Navbar from '../Navbar';
 
 const Dashboard = () => {
-  const [name, setName] = useState('');
   const [cardImage, setCardImage] = useState();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
@@ -98,17 +98,9 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) return navigate('/');
-    // fetchUserName();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
-
-  useEffect(() => {
     (async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter((i) => i.kind === 'videoinput');
-      console.log(videoDevices);
       setDevices(videoDevices);
       setActiveDeviceId(videoDevices[0].activeDeviceId);
     })();
@@ -121,18 +113,16 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      <nav className={styles.navbar}>
-        {/* <p>{name}</p> */}
+      {/* <nav className={styles.navbar}>
         <p>Logged in as {user?.email}</p>
         <button className="dashboard__btn" onClick={logout}>
           Logout
         </button>
-      </nav>
+      </nav> */}
 
       {/* {functionPredict()} */}
       <div className={styles.container}>
         <div className={styles.main}>
-
           <div className={styles.camera}>
             <Camera
               ref={camera}

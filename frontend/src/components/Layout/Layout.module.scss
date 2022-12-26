@@ -1,0 +1,137 @@
+@import '../../styles/mixins.scss';
+
+.left {
+  margin-left: 6px;
+}
+
+.right {
+  margin-right: 12px;
+  height: 22px;
+  width: 22px;
+}
+
+.home {
+  display: flex;
+  min-height: 100vh;
+
+  .sidebar {
+    padding: 3rem 2rem;
+    width: 22%;
+    background-color: var(--background-light);
+    border-right: 1px solid var(--border-light);
+
+    .logo {
+      display: flex;
+      margin-bottom: 4rem;
+      max-width: 70%;
+    }
+
+    @include mobile {
+      display: none;
+      width: 0;
+      padding: 0;
+      position: absolute;
+      z-index: 1;
+      min-height: 100vh;
+      left: 0;
+      top: 0;
+    }
+
+    .user {
+      display: flex;
+    }
+
+    .menu {
+      padding: 1rem 0;
+    }
+
+    .coll {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 24px 0;
+      padding: 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: var(--border-radius-medium);
+
+      &Active {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 24px 0;
+        padding: 1rem;
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius-medium);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+
+        .collection {
+          // margin: 8px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &Info {
+            // width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          &Name {
+            @include font-size-weight(18, 26, 400);
+            color: var(--primary);
+            @include line-clamp(1);
+          }
+        }
+      }
+    }
+    .small {
+      @include content-size(24, 24);
+
+      &Badge {
+        // @include content-size(40, 40);
+      }
+    }
+
+    .collection {
+      // margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &Info {
+        // width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &Name {
+        @include font-size-weight(18, 26, 400);
+        color: var(--color-light);
+        @include line-clamp(1);
+      }
+    }
+
+    .subMenu {
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+      color: var(--color-light);
+      margin: 24px 0 14px 6px;
+      @include font-size-weight(16, 10, 400);
+    }
+  }
+
+  .mainContent {
+    width: 100%;
+
+    @include mobile {
+      &Hidden {
+        opacity: 0.2;
+        backdrop-filter: saturate(180%) blur(20px);
+      }
+    }
+  }
+}

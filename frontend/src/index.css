@@ -1,4 +1,11 @@
-body {
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -13,12 +20,22 @@ code {
 }
 
 :root {
-  --primary: #0070f3;
-  --border-light: #eaeaea;
-  --error: #f33;
+  --background-dark: rgb(19, 19, 19);
+  --background-light: #f2f3f5;
+
+  --primary: hwb(212 0% 5%);
+  --color-light: #7e7e7e;
+  --color-dark: #484848;
+  --border-light: #dedede;
+  --border-dark: #444;
+  --error: rgb(216, 96, 96);
   --border-small: 4px;
   --border-medium: 6px;
   --border-large: 8px;
+  --border-radius-small: 4px;
+  --border-radius-medium: 6px;
+  --border-radius-large: 8px;
+  --primary-gradient: linear-gradient(to right, #007fff, #0059b2);
 
   --shadow-color: 0deg 0% 61%;
   --shadow-elevation-low: 0px 0.3px 0.3px hsl(var(--shadow-color) / 0.35),

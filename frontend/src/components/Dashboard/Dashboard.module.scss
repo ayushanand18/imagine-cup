@@ -1,12 +1,23 @@
 @import '../../styles/mixins.scss';
 
 button {
-  // margin: 0 20px;
-}
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-medium);
+  padding: 1rem 1.5em;
+  margin: 1rem;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 
-.capture {
-  margin: 20px;
-  padding: 10px;
+  &:hover {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: var(--border-medium);
+  }
 }
 
 .dashboard {

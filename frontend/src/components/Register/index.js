@@ -14,7 +14,6 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { setTimeActive } = useAuthValue();
 
   const validatePassword = () => {
     let isValid = true;
@@ -29,14 +28,13 @@ const Register = () => {
 
   const register = (e) => {
     e.preventDefault();
-    setError('');
     if (validatePassword()) {
       // Create a new user with email and password using firebase
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           sendEmailVerification(auth.currentUser)
             .then(() => {
-              setTimeActive(true);
+              // setTimeActive(true);
               navigate('/verify-email');
             })
             .catch((err) => alert(err.message));
