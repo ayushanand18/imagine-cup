@@ -6,8 +6,6 @@ import { auth, db, logout } from '../../firebase';
 import { Camera } from 'react-camera-pro';
 import '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/face-landmarks-detection';
-// import Webcam from 'react-webcam';
-// import Camera from '../CameraV2';
 import { drawMesh } from '../../utils';
 // Adds the CPU backend.
 import '@tensorflow/tfjs-backend-cpu';
@@ -17,8 +15,7 @@ import * as tflite from '@tensorflow/tfjs-tflite';
 import styles from './Dashboard.module.scss';
 
 const Dashboard = () => {
-  const [name, setName] = useState('');
-  const [cardImage, setCardImage] = useState();
+  // const [cardImage, setCardImage] = useState();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [user, loading] = useAuthState(auth);
@@ -100,17 +97,9 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) return navigate('/');
-    // fetchUserName();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
-
-  useEffect(() => {
     (async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter((i) => i.kind === 'videoinput');
-      console.log(videoDevices);
       setDevices(videoDevices);
       setActiveDeviceId(videoDevices[0].activeDeviceId);
     })();
@@ -123,23 +112,16 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      <nav className={styles.navbar}>
-        {/* <p>{name}</p> */}
+      {/* <nav className={styles.navbar}>
         <p>Logged in as {user?.email}</p>
         <button className="dashboard__btn" onClick={logout}>
           Logout
         </button>
-      </nav>
+      </nav> */}
 
       {/* {functionPredict()} */}
       <div className={styles.container}>
         <div className={styles.main}>
-          {/* <div className={styles.camera}> */}
-          {/* <Webcam ref={webcamRef} className={styles.webcam} /> */}
-          {/* <canvas ref={canvasRef} className={styles.canvas} /> */}
-          {/* </div> */}
-
-          <p>{devices[0]?.label}</p>
           <div className={styles.camera}>
             <Camera
               ref={camera}
@@ -162,7 +144,12 @@ const Dashboard = () => {
           >
             Take photo
           </button>
-          {image && <img className={styles.preview} src={image} alt="" />}
+          {image ? (
+            <>
+              <img className={styles.preview} src={image} alt="preview" />
+              <button>closeImage</button>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

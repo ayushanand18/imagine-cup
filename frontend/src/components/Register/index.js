@@ -6,15 +6,13 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useAuthValue } from '../../AuthContext';
 
-function Register() {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { setTimeActive } = useAuthValue();
 
   const validatePassword = () => {
     let isValid = true;
@@ -29,14 +27,13 @@ function Register() {
 
   const register = (e) => {
     e.preventDefault();
-    setError('');
     if (validatePassword()) {
       // Create a new user with email and password using firebase
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           sendEmailVerification(auth.currentUser)
             .then(() => {
-              setTimeActive(true);
+              // setTimeActive(true);
               navigate('/verify-email');
             })
             .catch((err) => alert(err.message));
@@ -87,6 +84,6 @@ function Register() {
       </div>
     </div>
   );
-}
+};
 
 export default Register;
