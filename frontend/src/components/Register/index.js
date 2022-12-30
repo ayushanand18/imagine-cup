@@ -6,7 +6,6 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useAuthValue } from '../../context/AuthContext';
 
 const Register = () => {
   const [email, setEmail] = useState('');

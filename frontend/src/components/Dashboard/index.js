@@ -13,10 +13,9 @@ import * as tf from '@tensorflow/tfjs-core';
 import * as tflite from '@tensorflow/tfjs-tflite';
 
 import styles from './Dashboard.module.scss';
-import Navbar from '../Navbar';
 
 const Dashboard = () => {
-  const [cardImage, setCardImage] = useState();
+  // const [cardImage, setCardImage] = useState();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [user, loading] = useAuthState(auth);
