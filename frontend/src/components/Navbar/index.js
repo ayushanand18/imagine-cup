@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './Navbar.module.scss';
 
 const Navbar = (props) => {
-  const { user } = props;
-
   return (
     <nav className={styles.navbar}>
       {/* <p>{name}</p> */}

@@ -46,7 +46,11 @@ const Layout = (props) => {
       <div className={styles.home}>
         <aside className={styles.sidebar}>
           {/* <div> */}
-          <img className={styles.logo} src="/logo-no-background.svg" />
+          <img
+            className={styles.logo}
+            src="/logo-no-background.svg"
+            alt="logo"
+          />
           {/* </div> */}
 
           <span variant="outlined" className={styles.coll}>
