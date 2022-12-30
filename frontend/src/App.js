@@ -35,14 +35,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const excludePaths = ['/register', '/'];
-
   return (
     <div className="App">
       <AuthProvider>
-        {/* <Layout> */}
         <RouterProvider router={router} />
-        {/* </Layout> */}
       </AuthProvider>
     </div>
   );

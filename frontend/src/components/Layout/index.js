@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   HiOutlineUserCircle,
   HiOutlineUser,
@@ -11,7 +11,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase';
-import Logo from '../Logo';
 import styles from './Layout.module.scss';
 
 const Layout = (props) => {

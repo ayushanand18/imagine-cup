@@ -1,6 +1,4 @@
-import { Typography } from '@mui/material';
 import React from 'react';
-import { logout } from '../../firebase';
 import styles from './Navbar.module.scss';
 
 const Navbar = (props) => {
